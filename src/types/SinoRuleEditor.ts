@@ -2,10 +2,10 @@ import {NodeType,EdgeType} from './Enum'
 export interface NodeData {
   id: string
   type: NodeType
+  text: string
   x?: number
   y?: number
   children?:Array<NodeData>
-  text?: string
   properties?: any
   [key: string]: any
 }
@@ -28,4 +28,14 @@ export interface DataItem {
 export interface ParamItem {
   dataList?: Array<DataItem>
   elContainer: HTMLElement
+}
+/**字段过滤节点 */
+export interface NodeFieldFiltering extends NodeData{
+  properties: {
+    Debug:boolean
+    existKey:boolean
+    dataKey:string
+    metaDataKey:string
+    describe:string
+  }
 }

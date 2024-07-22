@@ -12,7 +12,7 @@
           <span> {{ element.text }}</span>
         </template>
         <el-menu-item-group v-if="element.children && element.children.length">
-          <div @click="selectNode(node)"  class="move-item no-select b-line" v-for="(node,index) in element.children" :key="index">{{ node.text }}</div>
+          <div @mousedown="selectNode(node)"  class="move-item no-select b-line" v-for="(node,index) in element.children" :key="index">{{ node.text }}</div>
         </el-menu-item-group>
       </el-sub-menu>
     </el-menu>
@@ -20,8 +20,8 @@
 </div>
 </template>
 <script setup lang='ts'>
-import {NodeData} from '../types/SinoRuleEditor'
-import {NodeType} from '../types/Enum'
+import {NodeData} from '@/types/SinoRuleEditor'
+import {NodeType} from '@/types/Enum'
 const emit = defineEmits(['dragstart'])
 const basicList: Array<Partial<NodeData>> = [
   {
@@ -57,13 +57,13 @@ const basicList: Array<Partial<NodeData>> = [
    { 
     id: '4', text: "动作",
     children:[
-      {id:'4-1',text:'延迟',type:NodeType.Image},
-      {id:'4-2',text:'命令行',type:NodeType.Image},
-      {id:'4-3',text:'for',type:NodeType.Image},
-      {id:'4-4',text:'函数',type:NodeType.Image},
-      {id:'4-5',text:'节点组',type:NodeType.Image},
-      {id:'4-6',text:'迭代器',type:NodeType.Image},
-      {id:'4-7',text:'日志',type:NodeType.Image},
+      {id:'4-1',text:'延迟',type:NodeType.Polygon},
+      {id:'4-2',text:'命令行',type:NodeType.Polygon},
+      {id:'4-3',text:'for',type:NodeType.Polygon},
+      {id:'4-4',text:'函数',type:NodeType.Polygon},
+      {id:'4-5',text:'节点组',type:NodeType.Polygon},
+      {id:'4-6',text:'迭代器',type:NodeType.Polygon},
+      {id:'4-7',text:'日志',type:NodeType.Polygon},
     ]
    }
 ]

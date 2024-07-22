@@ -1,5 +1,5 @@
 import LogicFlow from '@logicflow/core'
-import {ParamItem,DataItem} from '../types/SinoRuleEditor'
+import {ParamItem,DataItem} from '../../types/SinoRuleEditor'
 class SinoRuleEditor {
   instance!:LogicFlow
   elContainer!: HTMLElement
@@ -35,7 +35,15 @@ class SinoRuleEditor {
   /**注册事件 */
   registerEvent(){
     this.instance.on("node:click", (data) => {
-      console.log(data);
+      console.log('node:click',data);
+    });
+   
+   // this.monitorMouseUp()
+  }
+  /**监听鼠标抬起事件 */
+  monitorMouseUp(){
+    this.instance.on("node:mouseup", (data) => {
+      console.log('node:mouseup',data);
     });
   }
  /**批量注册 */
