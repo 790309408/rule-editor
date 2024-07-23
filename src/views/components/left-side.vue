@@ -20,14 +20,14 @@
 </div>
 </template>
 <script setup lang='ts'>
-import {NodeData} from '@/types/SinoRuleEditor'
-import {NodeType} from '@/types/Enum'
+import {NodeData} from '../../types/SinoRuleEditor'
+import {NodeType} from '../../types/Enum'
 const emit = defineEmits(['dragstart'])
 const basicList: Array<Partial<NodeData>> = [
   {
      id: '1', text: "输入端",
      children:[
-      {id:'1-1',text:'MQTT',type:NodeType.Circle},
+      {id:'1-1',text:'MQTT',type:NodeType.CustomRect},
       {id:'1-2',text:'TCP/UDP',type:NodeType.Circle},
       {id:'1-3',text:'HTTP',type:NodeType.React},
       {id:'1-4',text:'定时调度',type:NodeType.React},

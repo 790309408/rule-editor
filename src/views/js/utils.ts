@@ -18,9 +18,10 @@ export function handlerNodeData(node:NodeData) {
         existKey:false,
         dataKey:'',
         metaDataKey:'',
-        describe:''
+        describe:'',
+        virtual:true,
+        name:node.text,
       }
-      
     }
     return newNode
   }

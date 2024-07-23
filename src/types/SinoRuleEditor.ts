@@ -1,10 +1,11 @@
 import {NodeType,EdgeType} from './Enum'
 export interface NodeData {
-  id: string
+  id?: string
   type: NodeType
   text: string
   x?: number
   y?: number
+  virtual?:boolean
   children?:Array<NodeData>
   properties?: any
   [key: string]: any
@@ -37,5 +38,6 @@ export interface NodeFieldFiltering extends NodeData{
     dataKey:string
     metaDataKey:string
     describe:string
+    [key: string]: any
   }
 }

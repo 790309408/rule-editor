@@ -16,6 +16,8 @@ enum NodeType  {
   Image = 'image',
   /**Html */
   Html = 'html',
+  /**自定义矩形 */
+  CustomRect = 'custom-rect'
 
 }
 enum EdgeType {

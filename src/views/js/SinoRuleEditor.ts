@@ -1,5 +1,6 @@
 import LogicFlow from '@logicflow/core'
 import {ParamItem,DataItem} from '../../types/SinoRuleEditor'
+import {registerCustomNode} from '../../custom-node/index.ts'
 class SinoRuleEditor {
   instance!:LogicFlow
   elContainer!: HTMLElement
@@ -27,9 +28,12 @@ class SinoRuleEditor {
       config:{
         width:1000,
         heigt: 800
-      }
+      },
+      //nodeTextEdit:false
+    //  ...SilentConfig
     });
     this.instance && this.registerEvent()
+    this.instance && registerCustomNode(this.instance)
   }
 
   /**注册事件 */

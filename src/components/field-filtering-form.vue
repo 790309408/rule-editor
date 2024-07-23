@@ -49,11 +49,19 @@ const rules = reactive<FormRules<NodeFieldFiltering>>({
     { required: true, message: '请输入节点ID', trigger: 'blur' },
   ]
 })
+/**获取表单数据 */
+const getFormData = ()=>{
+  return formData.value
+}
 watch(
   () => props.nodeInfo,
   (newVal) => {
-    console.log('newVal',newVal)
-    formData.value = newVal
+    formData.value.id = newVal.id
+    formData.value.dataKey = newVal.properties.dataKey
+    formData.value.describe = newVal.properties.describe
+    formData.value.metaDataKey = newVal.properties.metaDataKey
+    formData.value.existKey = newVal.properties.existKey
+    formData.value.Debug = newVal.properties.Debug
     formData.value.text = typeof newVal.text === 'string' ? newVal.text : newVal.text.value
   },
   {
@@ -61,6 +69,9 @@ watch(
     immediate: true
   }
 )
+defineExpose({
+  getFormData
+})
 </script>
 <style scoped lang="less">
  .w-p-80 {
