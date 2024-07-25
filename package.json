@@ -12,6 +12,7 @@
     "@logicflow/core": "^2.0.0-beta.4",
     "@logicflow/extension": "^2.0.0-beta.4",
     "@types/node": "^20.14.11",
+    "codemirror-editor-vue3": "^2.7.0",
     "element-plus": "^2.7.7",
     "ez-ui": "^0.2.6",
     "lodash-es": "^4.17.21",

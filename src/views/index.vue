@@ -15,7 +15,7 @@ import MainContent from './components/main-content.vue'
   width:100%;
   height: 32px;
 }
-::v-deep .el-main {
+:deep(.el-main) {
   padding:0px;
 }
 </style>

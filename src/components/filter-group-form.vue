@@ -9,16 +9,15 @@
     <el-form-item label="节点名称"  prop="text">
       <el-input v-model="formData.text" placeholder="请输入节点名称" />
     </el-form-item>
-    <el-form-item label="是否满足需要所有字段key存在" prop="existKey">
-      <el-switch v-model="formData.existKey" />
+    <el-form-item label="是否需要全匹配" prop="fullMatch">
+      <el-switch v-model="formData.fullMatch" />
     </el-form-item>
-    <el-form-item label="msg data字段key"  prop="dataKey">
-      <el-input v-model="formData.dataKey"  />
-      <p>多个与逗号隔开</p>
+    <el-form-item label="组内节点ID,多个与','隔开"  prop="groupId">
+      <el-input v-model="formData.groupId"  />
     </el-form-item>
-    <el-form-item label="meta data字段key"  prop="metaDataKey">
-      <el-input v-model="formData.metaDataKey"  />
-      <p>多个与逗号隔开</p>
+    <el-form-item label="组内执行超时，单位秒，默认0"  prop="executionTime">
+      <el-input v-model="formData.executionTime"  />
+      <p>默认0，代表不超时</p>
     </el-form-item>
     <el-form-item label="描述"  prop="describe">
       <el-input v-model="formData.describe" type="textarea" :rows="2" placeholder="请输入节点描述"  />
@@ -28,23 +27,23 @@
 <script setup lang='ts'>
 import {watch,reactive,ref} from 'vue'
 import type {FormRules } from 'element-plus'
-import {NodeFieldFiltering} from  '../types/SinoRuleEditor'
+import {NodeFilterGroup} from  '../types/SinoRuleEditor'
 const props = defineProps({
   nodeInfo:{
     type:Object,
     default:()=>({})
   }
 })
-const formData = ref<Partial<NodeFieldFiltering>>({
+const formData = ref<Partial<NodeFilterGroup>>({
   id:'',
   text:'',
-  dataKey: '',
+  fullMatch: false,
   describe: '',
-  metaDataKey: '',
-  existKey: false,
+  groupId: '',
+  executionTime:0,
   Debug:false
 })
-const rules = reactive<FormRules<NodeFieldFiltering>>({
+const rules = reactive<FormRules<NodeFilterGroup>>({
   id: [
     { required: true, message: '请输入节点ID', trigger: 'blur' },
   ]
@@ -57,12 +56,13 @@ watch(
   () => props.nodeInfo,
   (newVal) => {
     formData.value.id = newVal.id
-    formData.value.dataKey = newVal.properties.dataKey
-    formData.value.describe = newVal.properties.describe
-    formData.value.metaDataKey = newVal.properties.metaDataKey
-    formData.value.existKey = newVal.properties.existKey
-    formData.value.Debug = newVal.properties.Debug
     formData.value.text = typeof newVal.text === 'string' ? newVal.text : newVal.text.value
+    formData.value.fullMatch = newVal.properties.fullMatch
+    formData.value.describe = newVal.properties.describe
+    formData.value.groupId = newVal.properties.groupId
+    formData.value.executionTime = newVal.properties.executionTime
+    formData.value.Debug = newVal.properties.Debug
+    
   },
   {
     deep: true,
@@ -83,7 +83,7 @@ defineExpose({
   display: flex;
   align-items: center;
  }
- :deep(.el-form-item){
+ :deep(.el-form-item) {
   flex-direction: column;
  }
  :deep(.el-form-item__label){

@@ -17,7 +17,19 @@ enum NodeType  {
   /**Html */
   Html = 'html',
   /**自定义矩形 */
-  CustomRect = 'custom-rect'
+  CustomRect = 'custom-rect',
+  /**表达式过滤 */
+  ExpressionFilter = 'expression-filter',
+  /**字段过滤 */
+  FieldFilter = 'field-filter',
+  /**过滤器组 */
+  FilterGroup = 'filter-group',
+  /**js过滤 */
+  JsFilter = 'js-filter',
+  /**js路由 */
+  JsRouter = 'js-router',
+  /**消息路由 */
+  MessageRouter = 'message-router',
 
 }
 enum EdgeType {

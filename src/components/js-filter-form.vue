@@ -9,16 +9,8 @@
     <el-form-item label="节点名称"  prop="text">
       <el-input v-model="formData.text" placeholder="请输入节点名称" />
     </el-form-item>
-    <el-form-item label="是否满足需要所有字段key存在" prop="existKey">
-      <el-switch v-model="formData.existKey" />
-    </el-form-item>
-    <el-form-item label="msg data字段key"  prop="dataKey">
-      <el-input v-model="formData.dataKey"  />
-      <p>多个与逗号隔开</p>
-    </el-form-item>
-    <el-form-item label="meta data字段key"  prop="metaDataKey">
-      <el-input v-model="formData.metaDataKey"  />
-      <p>多个与逗号隔开</p>
+    <el-form-item label="js函数过滤" prop="filterJsCode">
+        <code-editor v-model:value="formData.filterJsCode"></code-editor>
     </el-form-item>
     <el-form-item label="描述"  prop="describe">
       <el-input v-model="formData.describe" type="textarea" :rows="2" placeholder="请输入节点描述"  />
@@ -27,24 +19,28 @@
 </template>
 <script setup lang='ts'>
 import {watch,reactive,ref} from 'vue'
+import CodeEditor from './code-editor.vue';
 import type {FormRules } from 'element-plus'
-import {NodeFieldFiltering} from  '../types/SinoRuleEditor'
+import {NodeJsFiltering} from  '../types/SinoRuleEditor'
 const props = defineProps({
   nodeInfo:{
     type:Object,
     default:()=>({})
   }
 })
-const formData = ref<Partial<NodeFieldFiltering>>({
+const defaultJsCode = `
+function filter(msg,metaData) {
+  return true;
+}
+`
+const formData = ref<Partial<NodeJsFiltering>>({
   id:'',
   text:'',
-  dataKey: '',
+  filterJsCode: '',
   describe: '',
-  metaDataKey: '',
-  existKey: false,
   Debug:false
 })
-const rules = reactive<FormRules<NodeFieldFiltering>>({
+const rules = reactive<FormRules<NodeJsFiltering>>({
   id: [
     { required: true, message: '请输入节点ID', trigger: 'blur' },
   ]
@@ -57,12 +53,10 @@ watch(
   () => props.nodeInfo,
   (newVal) => {
     formData.value.id = newVal.id
-    formData.value.dataKey = newVal.properties.dataKey
-    formData.value.describe = newVal.properties.describe
-    formData.value.metaDataKey = newVal.properties.metaDataKey
-    formData.value.existKey = newVal.properties.existKey
-    formData.value.Debug = newVal.properties.Debug
     formData.value.text = typeof newVal.text === 'string' ? newVal.text : newVal.text.value
+    formData.value.filterJsCode = newVal.properties.filterJsCode ? newVal.properties.filterJsCode : defaultJsCode
+    formData.value.describe = newVal.properties.describe
+    formData.value.Debug = newVal.properties.Debug
   },
   {
     deep: true,
@@ -83,10 +77,18 @@ defineExpose({
   display: flex;
   align-items: center;
  }
- :deep(.el-form-item){
+ :deep(.el-form-item)  {
   flex-direction: column;
  }
- :deep(.el-form-item__label){
+ :deep(.el-form-item__label)  {
   justify-content: flex-start;
+ }
+ :deep(.CodeMirror-line)   {
+  text-align: left;
+}
+ .code-box {
+  width: 100%;
+  display: flex;
+  flex-direction: column
  }
 </style>

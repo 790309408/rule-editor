@@ -1,4 +1,4 @@
-import {NodeData,NodeFieldFiltering} from '../../types/SinoRuleEditor'
+import {NodeData} from '../../types/SinoRuleEditor'
 /**生成UUID */
 export function generateUUID() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -9,21 +9,13 @@ export function generateUUID() {
 }
 /**处理节点数据 */
 export function handlerNodeData(node:NodeData) {
-  if(node.id === '1-1'){
-   const newNode:NodeFieldFiltering  = {
+  const newNode:NodeData  = {
       ...node,
       id: 'node_'+generateUUID(),
       properties:{
-        Debug:false,
-        existKey:false,
-        dataKey:'',
-        metaDataKey:'',
-        describe:'',
+        ...node.properties,
         virtual:true,
-        name:node.text,
       }
     }
-    return newNode
-  }
-  return node
+  return newNode
 }

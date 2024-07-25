@@ -1,6 +1,6 @@
 import LogicFlow from '@logicflow/core'
 import {ParamItem,DataItem} from '../../types/SinoRuleEditor'
-import {registerCustomNode} from '../../custom-node/index.ts'
+import {registerCustomNode} from '../../node/index.ts'
 class SinoRuleEditor {
   instance!:LogicFlow
   elContainer!: HTMLElement
@@ -16,6 +16,7 @@ class SinoRuleEditor {
       container: this.elContainer,
       width:window.innerWidth,
       height:window.innerHeight-5,
+      edgeType:"bezier",
       grid: {
         size: 20,
         visible: true,
@@ -29,30 +30,36 @@ class SinoRuleEditor {
         width:1000,
         heigt: 800
       },
-      //nodeTextEdit:false
-    //  ...SilentConfig
+    //  textEdit:false
     });
-    this.instance && this.registerEvent()
+    // 注册自定义节点
     this.instance && registerCustomNode(this.instance)
-  }
-
-  /**注册事件 */
-  registerEvent(){
-    this.instance.on("node:click", (data) => {
-      console.log('node:click',data);
-    });
-   
-   // this.monitorMouseUp()
-  }
-  /**监听鼠标抬起事件 */
-  monitorMouseUp(){
-    this.instance.on("node:mouseup", (data) => {
-      console.log('node:mouseup',data);
-    });
-  }
- /**批量注册 */
-  batchRegister(){
-
+    //默认样式
+    this.instance && this.instance.setTheme({
+      bezier: {
+        fill: "none",
+        stroke: "#d11f20",
+        strokeWidth: 2,
+        adjustLine: {
+          stroke: "#949494",
+        },
+        adjustAnchor: {
+          r: 4,
+          fill: "#d11f20",
+          stroke: "#d11f20",
+          fillOpacity: 1,
+        },
+      },
+      edgeText: {
+        textWidth: 100,
+        overflowMode: "autoWrap",
+        fontSize: 16,
+        borderColor:'#000',
+        background: {
+          fill: "#f22f25",
+        },
+      },
+    })
   }
 
   /**获取实例 */

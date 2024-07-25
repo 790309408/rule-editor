@@ -1,18 +1,17 @@
 import { RectNode, RectNodeModel,h } from '@logicflow/core'
 import LogicFlow from '@logicflow/core'
-import { getIcon } from '../utils/icon';
-const NodeWidth = 150,NodeHeight = 50;
-class CustomRectNode extends RectNode {
+import { getIcon } from '../../utils/icon';
+const NodeWidth = 200,NodeHeight = 50;
+class ExpressionFilterNode extends RectNode {
 
   getIcon () {
-    const { width, height,properties } = this.props.model;
-    console.log('width,height', width, height)
+    const { width, height,type } = this.props.model;
     return h('image', {
       width: 60,
-      height: 30,
+      height: 25,
       x: - width / 2,
-      y: - height/2 + 10 ,
-      href: getIcon(properties.name)
+      y: - height/2 + 12.5 ,
+      href: getIcon(type)
     });
   }
   customMouseDown = () => {
@@ -51,8 +50,8 @@ class CustomRectNode extends RectNode {
           h('rect', {
             x: - width / 2,
             y: - height / 2,
-            width: 30,
-            height: 30,
+            width: 60,
+            height: 50,
             fill: '#000',
             fillOpacity: 0.05,
             stroke: 'none',
@@ -69,15 +68,14 @@ class CustomRectNode extends RectNode {
     )
   }
 }
-class CustomRectModel extends RectNodeModel {
+class ExpressionFilterModel extends RectNodeModel {
   initNodeData(data:LogicFlow.NodeConfig){
     super.initNodeData(data)
     //也可以写在setAttributes()中
     this.width = NodeWidth;
     this.height = NodeHeight;
     // 节点名称不让编辑
-    //this.text.editable = false;
-    //console.log('this',this)
+    this.text.editable = false;
   }
   setAttributes() {
     //在initNodeData中不起作用
@@ -93,7 +91,8 @@ class CustomRectModel extends RectNodeModel {
     // 通过 transform 重新设置 text 的位置
     return {
       ...style,
-      transform: `matrix(1 0 0 1 ${refX} ${refY})`,//修改文本的位置
+      transform: `matrix(1 0 0 1 ${refX+30} ${refY})`,//修改文本的位置
+      lengthAdjust:'spacing'
     };
   }
   // 节点样式重写
@@ -108,7 +107,7 @@ class CustomRectModel extends RectNodeModel {
   }
 }
 export default {
-  type: 'custom-rect',
-  view: CustomRectNode,
-  model: CustomRectModel,
+  type: 'expression-filter',
+  view: ExpressionFilterNode,
+  model: ExpressionFilterModel,
 };
