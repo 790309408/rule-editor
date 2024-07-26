@@ -5,7 +5,6 @@
     ref="cmRef"
     border
     placeholder="请输入过滤函数"
-    :height="300"
     @input="onInput"
   />
 </template>

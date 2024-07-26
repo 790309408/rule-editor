@@ -8,10 +8,15 @@
     >
       <el-sub-menu :index="element.id" v-for="(element, index) in BasicNode" :key="index">
         <template #title>
-          <div class="title"> {{ element.text }}</div>
+          <div class="title">
+            <ez-icon :size="16" color="#333"><Promotion /></ez-icon>
+            <span>{{ element.text }}</span>
+          </div>
         </template>
         <el-menu-item-group v-if="element.children && element.children.length">
-          <div @mousedown="selectNode(node)"  class="move-item no-select b-line" v-for="(node,index) in element.children" :key="index">{{ node.text }}</div>
+          <div @mousedown="selectNode(node)"  class="move-item no-select b-line" v-for="(node,index) in element.children" :key="index">
+            <node-button :node="node"></node-button>
+          </div>
         </el-menu-item-group>
       </el-sub-menu>
     </el-menu>
@@ -19,53 +24,11 @@
 </div>
 </template>
 <script setup lang='ts'>
+import {EzIcon} from 'ez-ui'
  import {NodeData} from '../../types/SinoRuleEditor'
 import BasicNode from '../../types/NodeData'
+import NodeButton from './node-button.vue'
 const emit = defineEmits(['dragstart'])
-// const basicList: Array<Partial<NodeData>> = [
-//   {
-//      id: '1', text: "输入端",
-//      children:[
-//       {id:'1-1',text:'MQTT',type:NodeType.CustomRect},
-//       {id:'1-2',text:'TCP/UDP',type:NodeType.Circle},
-//       {id:'1-3',text:'HTTP',type:NodeType.React},
-//       {id:'1-4',text:'定时调度',type:NodeType.React},
-//       {id:'1-5',text:'Websocket',type:NodeType.React},
-//     ]
-//   },
-//   { 
-//     id:' 2', text: "过滤器",
-//     children:[
-//       {id:'2-1',text:'表达过滤器',type:NodeType.Diamond},
-//       {id:'2-2',text:'字段过滤',type:NodeType.Diamond},
-//       {id:'2-3',text:'过滤器组',type:NodeType.Diamond},
-//       {id:'2-4',text:'js过滤',type:NodeType.Diamond},
-//       {id:'2-5',text:'js路由',type:NodeType.Diamond},
-//       {id:'2-6',text:'消息路由',type:NodeType.Diamond},
-//     ]
-//    },
-//   { 
-//     id: '3', text: "转换器",
-//     children:[
-//       {id:'3-1',text:'表达式转换',type:NodeType.Text},
-//       {id:'3-2',text:'js转换',type:NodeType.Text},
-//       {id:'3-3',text:'元数据转换',type:NodeType.Text},
-//       {id:'3-4',text:'模板转换',type:NodeType.Text},
-//     ]
-//    },
-//    { 
-//     id: '4', text: "动作",
-//     children:[
-//       {id:'4-1',text:'延迟',type:NodeType.Polygon},
-//       {id:'4-2',text:'命令行',type:NodeType.Polygon},
-//       {id:'4-3',text:'for',type:NodeType.Polygon},
-//       {id:'4-4',text:'函数',type:NodeType.Polygon},
-//       {id:'4-5',text:'节点组',type:NodeType.Polygon},
-//       {id:'4-6',text:'迭代器',type:NodeType.Polygon},
-//       {id:'4-7',text:'日志',type:NodeType.Polygon},
-//     ]
-//    }
-// ]
 const handleOpen = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
 }
@@ -98,6 +61,12 @@ const selectNode = (node:NodeData)=>{
   width:100%;
   text-align: center;
   font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  span {
+    margin-left: 5px;
+  }
 }
 /* 防止文本被选中 */
 .no-select {
@@ -118,4 +87,7 @@ const selectNode = (node:NodeData)=>{
       position: absolute;
     }
   }
+:deep(.el-sub-menu__title){
+  background:#f6f5f5;
+}
 </style>

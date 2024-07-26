@@ -1,16 +1,17 @@
 import { RectNode, RectNodeModel,h } from '@logicflow/core'
 import LogicFlow from '@logicflow/core'
 import { getIcon } from '../../utils/icon';
-const NodeWidth = 200,NodeHeight = 50;
+const NodeWidth = 120,NodeHeight = 25;
+const IconWidth = 40,IconHeight = 16;
 class JsRouterNode extends RectNode {
 
   getIcon () {
     const { width, height,type } = this.props.model;
     return h('image', {
-      width: 60,
-      height: 25,
+      width: IconWidth,
+      height: IconHeight,
       x: - width / 2,
-      y: - height/2 + 12.5 ,
+      y: - height/2 + 5 ,
       href: getIcon(type)
     });
   }
@@ -50,8 +51,8 @@ class JsRouterNode extends RectNode {
           h('rect', {
             x: - width / 2,
             y: - height / 2,
-            width: 60,
-            height: 50,
+            width: IconWidth,
+            height: NodeHeight,
             fill: '#000',
             fillOpacity: 0.05,
             stroke: 'none',
@@ -88,11 +89,11 @@ class JsRouterModel extends RectNodeModel {
     const { refX = 0, refY = 0 } = this.properties 
     const style = super.getTextStyle();
     style.color = '#333'
-    style.fontSize = 16;
+    style.fontSize = 12;
     // 通过 transform 重新设置 text 的位置
     return {
       ...style,
-      transform: `matrix(1 0 0 1 ${refX+30} ${refY})`,//修改文本的位置
+      transform: `matrix(1 0 0 1 ${refX+15} ${refY})`,//修改文本的位置
       lengthAdjust:'spacing'
     };
   }

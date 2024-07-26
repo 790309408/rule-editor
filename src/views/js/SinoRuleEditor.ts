@@ -1,6 +1,8 @@
 import LogicFlow from '@logicflow/core'
+import { Snapshot } from "@logicflow/extension";
 import {ParamItem,DataItem} from '../../types/SinoRuleEditor'
 import {registerCustomNode} from '../../node/index.ts'
+LogicFlow.use(Snapshot)
 class SinoRuleEditor {
   instance!:LogicFlow
   elContainer!: HTMLElement
@@ -20,9 +22,9 @@ class SinoRuleEditor {
       grid: {
         size: 20,
         visible: true,
-        type: "dot",
+        type: "mesh",
         config: {
-          color: "#ababab",
+          color: "#f7f8f9",
           thickness: 1,
         },
       },
@@ -30,7 +32,9 @@ class SinoRuleEditor {
         width:1000,
         heigt: 800
       },
-    //  textEdit:false
+      background: {
+        backgroundColor: '#ffffff', // 背景色
+      }
     });
     // 注册自定义节点
     this.instance && registerCustomNode(this.instance)
@@ -38,17 +42,21 @@ class SinoRuleEditor {
     this.instance && this.instance.setTheme({
       bezier: {
         fill: "none",
-        stroke: "#d11f20",
+        stroke: "#999",
         strokeWidth: 2,
         adjustLine: {
           stroke: "#949494",
         },
         adjustAnchor: {
           r: 4,
-          fill: "#d11f20",
-          stroke: "#d11f20",
+          fill: "#999",
+          stroke: "#999",
           fillOpacity: 1,
         },
+      },
+      baseEdge: {
+        stroke: "#000000",
+        strokeWidth: 2,
       },
       edgeText: {
         textWidth: 100,
@@ -56,7 +64,7 @@ class SinoRuleEditor {
         fontSize: 16,
         borderColor:'#000',
         background: {
-          fill: "#f22f25",
+          fill: "#fff",
         },
       },
     })

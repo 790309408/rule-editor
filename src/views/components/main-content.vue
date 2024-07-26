@@ -35,7 +35,8 @@ import LeftSide from './left-side.vue'
 import EditActionBar from './edit-action-bar.vue'
 import OperateMenu from './operate-bar.vue'
 import SinoRuleEditor from '../js/SinoRuleEditor'
-import {handlerNodeData} from '../js/utils'
+import {handlerNodeData,saveJson,LogicFlowOperate} from '../js/utils'
+import { OperateType } from '../../types/Enum'
 const flag = ref(false)
 const graphFlag = ref(false)
 const refNodeForm = ref()
@@ -75,8 +76,8 @@ const registerEvent = ()=>{
   //节点单击事件
   lf.value && lf.value.on("node:click", (data) => {
     console.log('边点击',data)
-    editNode.value.x = data.position.domOverlayPosition.x+50
-    editNode.value.y = data.position.domOverlayPosition.y-50
+    editNode.value.x = data.position.domOverlayPosition.x+10
+    editNode.value.y = data.position.domOverlayPosition.y-40
     editNode.value.id = data.data.id
     editNode.value.type = data.data.type
   });
@@ -95,8 +96,8 @@ const registerEvent = ()=>{
   /**边点击 */
   lf.value && lf.value.on("edge:click", ({data,position}) => {
     console.log('边点击',position,data)
-    editNode.value.x = position.domOverlayPosition.x+50
-    editNode.value.y = position.domOverlayPosition.y-50
+    editNode.value.x = position.domOverlayPosition.x+10
+    editNode.value.y = position.domOverlayPosition.y-30
     editNode.value.id = data.id
     editNode.value.type = data.type
   });
@@ -165,15 +166,29 @@ const operation = (data:any)=>{
   }
 }
 /**操作栏 */
-const operatebar = (type:'view')=>{
-  if(type==='view'){
+const operatebar = (type:OperateType)=>{
+  if(type === OperateType.View){
     if(lf.value){
      const data = lf.value.getGraphData() as LogicFlow.GraphData
      data && (graphData.value = data)
      graphFlag.value = true
      graphDataJson.value = JSON.stringify(data,null,2)
-     console.log('--data---',data)
     }
+  }else if(type===OperateType.DownLoadJson){
+    if(lf.value){
+     const data = lf.value.getGraphData() as LogicFlow.GraphData
+     data && (graphData.value = data)
+     graphDataJson.value = JSON.stringify(data,null,2)
+     saveJson(graphDataJson.value,'data.json')
+    }
+  } else if(type===OperateType.SaveImg){
+    lf.value && LogicFlowOperate(lf.value,type)
+  } else if(type===OperateType.ZoomIn){
+    lf.value && LogicFlowOperate(lf.value,type)
+  }else if (type=== OperateType.ZoomOut){
+    lf.value && LogicFlowOperate(lf.value,type)
+  }else if(type===OperateType.ResetZoom){
+    lf.value && LogicFlowOperate(lf.value,type)
   }
 }
 /**获取节点信息 */
